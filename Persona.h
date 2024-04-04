@@ -2,27 +2,20 @@
 // Created by Admin on 02/04/2024.
 //
 
-#ifndef UNTITLED1_PERSONA_H
-#define UNTITLED1_PERSONA_H
+#ifndef PERSONA_H
+#define PERSONA_H
 
-
-#include <iostream>
-#include <vector>
 #include <string>
-
-using namespace std;
 
 class Persona {
 private:
-    string nombre;
-    string apellido;
+    std::string nombre;
+    std::string apellido;
 
 public:
-    Persona(const string& _nombre, const string& _apellido) : nombre(_nombre), apellido(_apellido) {}
-
-    void mostrarInfo() const {
-        cout << "Nombre: " << nombre << ", Apellido: " << apellido << endl;
-    }
+    Persona(const std::string& nombre, const std::string& apellido);
+    std::string getNombre() const;
+    std::string getApellido() const;
 };
 
-#endif //UNTITLED1_PERSONA_H
+#endif // PERSONA_H

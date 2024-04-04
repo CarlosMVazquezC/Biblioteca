@@ -1,12 +1,11 @@
 #include <iostream>
-#include <vector>
-#include <string>
-#include "Persona.h"
-#include "Libro.h"
-#include "Biblioteca.h"
-#include <stdexcept>
 #include <limits>
+#include "Biblioteca.h"
+#include "Libro.h"
+#include "Revista.h"
+#include "Persona.h"
 
+using namespace std;
 
 int main() {
     Biblioteca biblioteca;
@@ -22,20 +21,27 @@ int main() {
     biblioteca.agregarLibro(new Libro("El señor de los anillos", "J.R.R. Tolkien"));
     biblioteca.agregarLibro(new Libro("Harry Potter y la piedra filosofal", "J.K. Rowling"));
     biblioteca.agregarLibro(new Libro("Cien años de soledad", "Gabriel García Márquez"));
-    Revista revista1("National Geographic", "Revista", "Ciencia", "Estante 1");
-    Revista revista2("Vogue", "Revista", "Moda", "Estante 2");
-    Revista revista3("Time", "Revista", "Actualidad", "Estante 3");
+
+    // Agregar revistas
+    biblioteca.agregarRevista(new Revista("National Geographic", "Naturaleza", "Estante 1"));
+    biblioteca.agregarRevista(new Revista("Time", "Actualidad", "Estante 2"));
+    biblioteca.agregarRevista(new Revista("Scientific American", "Ciencia", "Estante 3"));
 
     int opcion;
-    string titulo, nombre, apellido, saga, estante;
+    string titulo, nombre, apellido;
 
     bool esAdmin = false; // Variable que indica si el usuario es un administrador
 
     do {
-        cout << "\n*** BIENVENIDO ***" << endl;
-        cout << "Seleccione su modo de acceso:" << endl;
-        cout << "1. Modo Administrador" << endl;
-        cout << "2. Modo Cliente" << endl;
+        cout << "\n=============================" << endl;
+        cout << "|          BIENVENIDO        |" << endl;
+        cout << "=============================" << endl;
+        cout << "|     Seleccione su modo     |" << endl;
+        cout << "|          de acceso:        |" << endl;
+        cout << "| 1. Modo Administrador      |" << endl;
+        cout << "| 2. Modo Cliente            |" << endl;
+        cout << "| 3. Salir                   |" << endl;
+        cout << "=============================" << endl;
         cout << "Ingrese opción: ";
 
         // Manejo de excepciones para la entrada del usuario
@@ -48,7 +54,7 @@ int main() {
                 throw invalid_argument("Entrada no válida. Ingrese un número.");
             }
 
-            if (opcion != 1 && opcion != 2) {
+            if (opcion != 1 && opcion != 2 && opcion != 3) {
                 throw invalid_argument("Opción no válida. Inténtelo de nuevo.");
             }
         } catch (const invalid_argument& e) {
@@ -58,25 +64,40 @@ int main() {
 
         if (opcion == 1) {
             esAdmin = true;
-            cout << "Modo Administrador activado." << endl;
-        } else {
-            cout << "Modo Cliente activado." << endl;
+            cout << "\nModo Administrador activado." << endl;
+        } else if (opcion == 2) {
+            cout << "\nModo Cliente activado." << endl;
+        } else if (opcion == 3) {
+            cout << "\nSaliendo del programa." << endl;
+            return 0; // Terminar el programa
         }
 
         // Menú de opciones según el modo de acceso seleccionado
         do {
-            cout << "\n*** MENÚ ***" << endl;
-            cout << "1. Mostrar libros y revistas disponibles" << endl;
-            cout << "2. Prestar libro o revista" << endl;
-            cout << "3. Devolver libro o revista" << endl;
+            cout << "\n=============================" << endl;
+            cout << "|            MENÚ           |" << endl;
+            cout << "=============================" << endl;
+            cout << "| 1. Mostrar todos los      |" << endl;
+            cout << "|    libros y revistas      |" << endl;
+            cout << "|    disponibles            |" << endl;
+            cout << "| 2. Mostrar libros y       |" << endl;
+            cout << "|    revistas prestados     |" << endl;
+            cout << "| 3. Prestar libro o        |" << endl;
+            cout << "|    revista                |" << endl;
+            cout << "| 4. Devolver libro o       |" << endl;
+            cout << "|    revista                |" << endl;
             if (esAdmin) {
-                cout << "4. Añadir libro o revista" << endl;
-                cout << "5. Eliminar libro o revista" << endl;
-                cout << "6. Cambiar a Modo Cliente" << endl;
+                cout << "| 5. Añadir libro o         |" << endl;
+                cout << "|    revista                |" << endl;
+                cout << "| 6. Eliminar libro o       |" << endl;
+                cout << "|    revista                |" << endl;
+                cout << "| 7. Cambiar a Modo Cliente |" << endl;
             } else {
-                cout << "4. Cambiar a Modo Administrador" << endl;
+                cout << "| 5. Cambiar a Modo         |" << endl;
+                cout << "|    Administrador          |" << endl;
             }
-            cout << "7. Salir" << endl;
+            cout << "| 8. Salir                   |" << endl;
+            cout << "=============================" << endl;
             cout << "Ingrese opción: ";
 
             // Manejo de excepciones para la entrada del usuario
@@ -89,7 +110,7 @@ int main() {
                     throw invalid_argument("Entrada no válida. Ingrese un número.");
                 }
 
-                if (opcion < 1 || opcion > 7) {
+                if (opcion < 1 || opcion > 8) {
                     throw invalid_argument("Opción no válida. Inténtelo de nuevo.");
                 }
             } catch (const invalid_argument& e) {
@@ -99,61 +120,67 @@ int main() {
 
             switch (opcion) {
                 case 1:
-                    biblioteca.mostrarItems();
+                    cout << "\n=============================" << endl;
+                    cout << "|  Libros disponibles en la  |" << endl;
+                    cout << "|          biblioteca        |" << endl;
+                    cout << "=============================" << endl;
+                    biblioteca.mostrarLibros();
+                    cout << "\n=============================" << endl;
+                    cout << "|  Revistas disponibles en   |" << endl;
+                    cout << "|          la biblioteca     |" << endl;
+                    cout << "=============================" << endl;
+                    biblioteca.mostrarRevistas();
                     break;
                 case 2:
+                    cout << "\n=============================" << endl;
+                    cout << "|  Libros prestados en la    |" << endl;
+                    cout << "|          biblioteca        |" << endl;
+                    cout << "=============================" << endl;
+                    biblioteca.mostrarLibrosPrestados();
+                    cout << "\n=============================" << endl;
+                    cout << "|  Revistas prestadas en la  |" << endl;
+                    cout << "|          biblioteca        |" << endl;
+                    cout << "=============================" << endl;
+                    biblioteca.mostrarRevistasPrestadas();
+                    break;
+                case 3:
                     cout << "Ingrese el título del libro o revista que desea prestar: ";
                     cin.ignore();
                     getline(cin, titulo);
                     try {
-                        biblioteca.prestarLibro(titulo);
-                    } catch (const invalid_argument& e) {
-                        cerr << "Error: " << e.what() << endl;
-                    }
-                    break;
-                case 3:
-                    cout << "Ingrese el título del libro o revista que desea devolver: ";
-                    cin.ignore();
-                    getline(cin, titulo);
-                    try {
-                        biblioteca.devolverLibro(titulo);
+                        Persona persona(nombre, apellido);
+                        biblioteca.prestarLibro(titulo, &persona);
+                        cout << "Libro o revista prestado exitosamente." << endl;
                     } catch (const invalid_argument& e) {
                         cerr << "Error: " << e.what() << endl;
                     }
                     break;
                 case 4:
-                    if (esAdmin) {
-                        cout << "Ingrese el título del nuevo libro o revista: ";
-                        cin.ignore();
-                        getline(cin, titulo);
-                        cout << "Ingrese el nombre del autor o saga: ";
-                        getline(cin, nombre);
-                        if (titulo.find("Revista") != string::npos) {
-                            cout << "Ingrese la saga de la revista: ";
-                            getline(cin, saga);
-                            cout << "Ingrese el estante de la revista: ";
-                            getline(cin, estante);
-                            biblioteca.agregarLibro(new Revista(titulo, nombre, saga, estante));
-                            cout << "Revista agregada correctamente." << endl;
-                        } else {
-                            biblioteca.agregarLibro(new Libro(titulo, nombre));
-                            cout << "Libro agregado correctamente." << endl;
-                        }
-                    } else {
-                        esAdmin = true;
+                    cout << "Ingrese el título del libro o revista que desea devolver: ";
+                    cin.ignore();
+                    getline(cin, titulo);
+                    try {
+                        biblioteca.devolverLibro(titulo);
+                        cout << "Libro o revista devuelto exitosamente." << endl;
+                    } catch (const invalid_argument& e) {
+                        cerr << "Error: " << e.what() << endl;
                     }
                     break;
                 case 5:
                     if (esAdmin) {
-                        cout << "Ingrese el título del libro o revista que desea eliminar: ";
-                        cin.ignore();
-                        getline(cin, titulo);
-                        biblioteca.eliminarLibro(titulo);
+                        cout << "Función de añadir libro o revista aún no implementada." << endl;
+                    } else {
+                        esAdmin = true;
+                    }
+                    break;
+                case 6:
+                    if (esAdmin) {
+                        cout << "Función de eliminar libro o revista aún no implementada." << endl;
                     } else {
                         cout << "Opción no válida." << endl;
                     }
                     break;
-                case 6:
+                case 7:
                     if (esAdmin) {
                         esAdmin = false;
                         cout << "Modo Cliente activado." << endl;
@@ -161,15 +188,18 @@ int main() {
                         cout << "Opción no válida." << endl;
                     }
                     break;
-                case 7:
+                case 8:
                     cout << "Saliendo del programa." << endl;
                     break;
                 default:
                     cout << "Opción no válida. Inténtelo de nuevo." << endl;
             }
-        } while (opcion != 7);
+        } while (opcion != 8);
 
     } while (true); // Bucle infinito para volver a seleccionar el modo de acceso al salir del programa
 
     return 0;
 }
+
+
+

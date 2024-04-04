@@ -2,38 +2,29 @@
 // Created by Admin on 02/04/2024.
 //
 
-#ifndef UNTITLED1_REVISTA_H
-#define UNTITLED1_REVISTA_H
-#include <iostream>
-#include <vector>
-#include <string>
-#include "Libro.h"
 
-class Revista : public Libro {
+#ifndef REVISTA_H
+#define REVISTA_H
+
+#include <string>
+
+class Revista {
 private:
-    string saga;
-    string estante;
+    std::string titulo;
+    std::string saga;
+    std::string estante;
+    bool prestado;
 
 public:
-    Revista(string _titulo, string _autor, string _saga, string _estante)
-            : Libro(_titulo, _autor), saga(_saga), estante(_estante) {}
-
-    string getSaga() const {
-        return saga;
-    }
-
-    string getEstante() const {
-        return estante;
-    }
-
-    void setSaga(string _saga) {
-        saga = _saga;
-    }
-
-    void setEstante(string _estante) {
-        estante = _estante;
-    }
+    Revista(std::string titulo, std::string saga, std::string estante);
+    std::string getTitulo();
+    std::string getSaga();
+    std::string getEstante();
+    bool isPrestado();
+    void setPrestado(bool prestado);
+    void prestar();
+    void devolver();
 };
 
+#endif // REVISTA_H
 
-#endif //UNTITLED1_REVISTA_H

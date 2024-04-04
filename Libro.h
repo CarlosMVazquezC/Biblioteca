@@ -2,43 +2,31 @@
 // Created by Admin on 02/04/2024.
 //
 
-#ifndef UNTITLED1_LIBRO_H
-#define UNTITLED1_LIBRO_H
+#ifndef LIBRO_H
+#define LIBRO_H
 
-
-#include <iostream>
-#include <vector>
 #include <string>
-#include "Persona.h"
+#include <iostream> // Para la salida estándar
+
+class Persona; // Declaración adelantada de Persona para evitar un ciclo de inclusión
 
 class Libro {
-protected:
-    string titulo;
-    string autor;
+private:
+    std::string titulo;
+    std::string autor;
     bool prestado;
 
 public:
-    Libro(string _titulo, string _autor) : titulo(_titulo), autor(_autor), prestado(false) {}
+    Libro(std::string _titulo, std::string _autor); // Constructor
 
-    string getTitulo() const {
-        return titulo;
-    }
+    std::string getTitulo() const;
+    std::string getAutor() const;
+    bool isPrestado() const;
+    void setPrestado(bool _prestado);
 
-    string getAutor() const {
-        return autor;
-    }
-
-    bool estaPrestado() const {
-        return prestado;
-    }
-
-    void prestar() {
-        prestado = true;
-    }
-
-    void devolver() {
-        prestado = false;
-    }
+    void prestar(Persona* persona);
+    void devolver();
 };
 
-#endif //UNTITLED1_LIBRO_H
+#endif // LIBRO_H
+
